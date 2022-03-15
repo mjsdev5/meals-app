@@ -10,6 +10,15 @@ import MealDetailScreen from "../screens/MealDetailScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import Colors from "../constants/Colors";
 
+const defaultStackNavOptions = {
+  // mode: "modal",
+  // initialRouteName: 'Categories',
+  headerStyle: {
+    backgroundColor: Platform.OS === "android" ? Colors.primary : "",
+  },
+  headerTintColor: Platform.OS === "android" ? "white" : Colors.primary,
+};
+
 const MealsNavigator = createStackNavigator(
   {
     Categories: {
@@ -19,16 +28,15 @@ const MealsNavigator = createStackNavigator(
     CategoryMeals: CategoryMealsScreen,
     MealDetail: MealDetailScreen,
   },
+  defaultStackNavOptions
+);
+
+const FavNavigator = createStackNavigator(
   {
-    // mode: "modal",
-    // initialRouteName: 'Categories',
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Platform.OS === "android" ? Colors.primary : "",
-      },
-      headerTintColor: Platform.OS === "android" ? "white" : Colors.primary,
-    },
-  }
+    Favorites: FavoritesScreen,
+    MealDetail: MealDetailScreen,
+  },
+  { defaultNavigationOptions: defaultStackNavOptions }
 );
 
 const MealsFavTabNavigator = createBottomTabNavigator(
@@ -48,7 +56,7 @@ const MealsFavTabNavigator = createBottomTabNavigator(
       },
     },
     Favorites: {
-      screen: FavoritesScreen,
+      screen: FavNavigator,
       navigationOptions: {
         tabBarIcon: (tabInfo) => {
           return (
@@ -58,6 +66,7 @@ const MealsFavTabNavigator = createBottomTabNavigator(
       },
     },
   },
+  { defaultNavigationOptions: defaultStackNavOptions },
   {
     tabBarOptions: {
       activeTintColor: Colors.accentColor,
